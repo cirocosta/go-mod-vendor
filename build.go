@@ -1,6 +1,7 @@
 package gomodvendor
 
 import (
+	"github.com/paketo-buildpacks/go-mod-vendor/netrc"
 	"github.com/paketo-buildpacks/packit"
 )
 
@@ -13,6 +14,15 @@ type BuildProcess interface {
 func Build(buildProcess BuildProcess, logs LogEmitter) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logs.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
+
+		logs.Process("Checking NETRC")
+		done, err := netrc.Setup()
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+		if done {
+			logs.Process("NETRC Populated")
+		}
 
 		ok, err := buildProcess.ShouldRun(context.WorkingDir)
 		if err != nil {

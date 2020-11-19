@@ -1,7 +1,7 @@
 api = "0.4"
 
 [buildpack]
-id = "paketo-buildpacks/go-mod-vendor"
+id = "cirocosta/go-mod-vendor"
 name = "Paketo Go Mod Vendor Buildpack"
 version = "{{ .Version }}"
 homepage = "https://github.com/paketo-buildpacks/go-mod-vendor"
